@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>& A ... log | Your memories</title>
     <style>
-        /* 載入字體 */
+        /* 還原你最初成功的字體定義 */
         @font-face {
             font-family: 'MyCustomFont'; 
             src: url('ChenYuluoyan.ttf') format('truetype');
@@ -21,55 +21,64 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            justify-content: center; 
+            justify-content: center;
+            -webkit-font-smoothing: antialiased;
         }
 
         /* 輸入頁容器 */
         .container {
             text-align: center;
-            width: 90%;
-            max-width: 350px;
-            padding: 20px;
+            width: 85%;
+            max-width: 450px;
         }
 
-        .container h1 { font-size: 2.5rem; margin-bottom: 20px; }
+        .container h1 { 
+            font-size: 3.8rem; /* 加大標題 */
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+        }
+
+        .container p {
+            font-size: 1.8rem; /* 加大說明文字 */
+            margin-bottom: 30px;
+        }
 
         input {
             background: transparent;
             border: none;
-            border-bottom: 2px solid #3c2d1e;
+            border-bottom: 4px solid #3c2d1e;
             font-family: 'MyCustomFont';
-            font-size: 24px;
+            font-size: 3rem; /* 加大數字輸入框 */
             padding: 10px;
             width: 100%;
             text-align: center;
             color: #3c2d1e;
             outline: none;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
         }
 
         button {
             background-color: #3c2d1e;
             color: #d8cfb0;
             border: none;
-            padding: 12px 40px;
+            padding: 20px;
             font-family: 'MyCustomFont';
-            font-size: 1.2rem;
+            font-size: 2.2rem; /* 加大按鈕文字 */
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 8px;
             width: 100%;
         }
 
         /* 明信片結果頁 */
         .postcard {
-            width: 85%;
-            max-width: 380px;
+            width: 88%;
+            max-width: 450px;
             background: #f4eee0;
-            padding: 25px;
+            padding: 35px;
             border: 2px solid #3e2a1a;
-            box-shadow: 6px 6px 0px #3e2a1a;
+            box-shadow: 10px 10px 0px #3e2a1a;
             position: relative;
-            display: none; /* 初始隱藏 */
+            display: none; 
             margin: 20px 0;
         }
 
@@ -82,35 +91,43 @@
         }
 
         .postcard h1 {
-            font-size: 2.8rem;
+            font-size: 4rem; /* 明信片大標題 */
             text-align: center;
             border-bottom: 2px solid #3e2a1a;
-            padding-bottom: 10px;
-            margin-top: 10px;
+            padding-bottom: 15px;
+            margin-top: 20px;
         }
 
-        .timestamp { font-size: 1rem; text-align: center; margin-bottom: 15px; }
+        .timestamp { 
+            font-size: 1.6rem; 
+            text-align: center; 
+            margin-bottom: 25px;
+            color: #8b0000;
+            font-weight: bold;
+        }
 
-        audio { width: 100%; margin: 15px 0; }
+        audio { 
+            width: 100%; 
+            margin: 25px 0; 
+            height: 55px; 
+        }
 
         .story-text {
-            line-height: 1.6;
-            font-size: 1.2rem;
+            line-height: 1.0;
+            font-size: 1.8rem; /* 加大故事內文 */
             border-top: 1px dashed #3e2a1a;
-            padding-top: 15px;
-            margin-top: 15px;
-            max-height: 45vh;
-            overflow-y: auto;
+            padding-top: 25px;
+            margin-top: 25px;
         }
 
         .stamp {
-            position: absolute; right: 10px; top: 10px;
-            width: 60px; height: 60px;
-            border: 2px solid #8b0000; color: #8b0000;
+            position: absolute; right: 15px; top: 15px;
+            width: 85px; height: 85px;
+            border: 3px solid #8b0000; color: #8b0000;
             border-radius: 50%; display: flex;
             justify-content: center; align-items: center;
-            transform: rotate(15deg); font-size: 1rem;
-            opacity: 0.5; font-weight: bold;
+            transform: rotate(15deg); font-size: 1.6rem;
+            opacity: 0.6; font-weight: bold;
         }
     </style>
 </head>
@@ -118,7 +135,7 @@
     <div id="input-page" class="container">
         <h1>Memory Unfolding</h1>
         <p>Please enter your special ID</p>
-        <input type="number" pattern="\d*" id="id-input" placeholder="e.g. 240420">
+        <input type="number" pattern="\d*" id="id-input" placeholder="Enter ID">
         <button onclick="checkID()">Unfold Memory</button>
     </div>
 
@@ -126,14 +143,25 @@
         <div class="stamp">Saved</div>
         <h1 id="title">"& A ... log"</h1>
         <div class="timestamp" id="display-id">ID: --------</div>
+        
         <audio id="audio-player" controls><source src="" type="audio/wav"></audio>
-        <div style="text-align: center; font-size: 1.2rem;"><strong>For you：</strong></div>
+        
+        <div style="text-align: center; font-size: 2rem; margin-top: 15px;"><strong>For you：</strong></div>
+        
         <div class="story-text">
             <p><strong>"Entry from a life, not a single day."</strong></p>
-            <p>Joy is the quiet thread that sews those moments together. Happiness is the smile; joy is the reason you keep smiling when no one is watching.</p>
+            <p>They say happiness comes in moments — and that’s true. But joy? Joy is the quiet thread that sews those moments together.</p>
+            <p>When I was seven, I found a smooth, gray river stone. It wasn’t special — no crystal inside, no perfect shape. But I held it in my palm, warm from the sun, and for no reason at all, I felt full. I put it in my pocket and carried it for three years. That was joy: small, carried quietly.</p>
+            <p>At twelve, I failed something important. I sat on the back steps, watching ants climb a crack in the concrete. My mother sat beside me. She didn’t say “it’s okay.” She pointed at the ants and said, “Look how they keep going. No fear.” We laughed until our stomachs hurt. That was joy: someone sitting down with you, not above you.</p>
+            <p>At fifteen, I learned to make bread. The first loaf was a brick. The second was better. The tenth — I pulled it from the oven, golden and singing with little cracks. I broke it open with my hands, steam rising like a small ceremony. I ate it standing up, butter dripping to my wrist. That was joy: creating something imperfect and eating it anyway.</p>
+            <p>Now, writing this in a shared log — I realize: Happiness is the smile. Joy is the reason you keep smiling when no one is watching.</p>
+            <p>Put this in your log not as a lesson, but as a reminder. Joy is not a destination.</p>
             <p>It’s the permission you give yourself to notice a warm stone, a failed test turned into a laugh, or a loaf of bread that doesn’t care if it’s perfect.</p>
+            <p>And that permission? </p>
+            <p>You already have it.</p>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
