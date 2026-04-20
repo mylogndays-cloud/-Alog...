@@ -97,6 +97,33 @@
             opacity: 0.6;
             pointer-events: none;
         }
+
+        input {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #3c2d1e; /* 咖啡色底線 */
+    font-family: 'MyCustomFont';
+    font-size: 20px;
+    padding: 10px;
+    text-align: center;
+    color: #3c2d1e;
+}
+
+button {
+    background-color: #3c2d1e;
+    color: #d8cfb0;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    font-family: 'MyCustomFont';
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #5a4532; /* 滑過時變色 */
+}
+
         @font-face {
     font-family: 'MyCustomFont'; 
     src: url('ChenYuluoyan.ttf') format('truetype');
@@ -121,7 +148,7 @@ body {
         <p><strong>For you：</strong></p>
 </div>
 
-    <div class="story-text">
+<div class="story-text">
         <p><strong>"Entry from a life, not a single day.</strong></p>
         <p>They say happiness comes in moments — and that’s true. But joy? Joy is the quiet thread that sews those moments together.</p>
         <p>When I was seven, I found a smooth, gray river stone. It wasn’t special — no crystal inside, no perfect shape. But I held it in my palm, warm from the sun, and for no reason at all, I felt full. I put it in my pocket and carried it for three years. That was joy: small, carried quietly.</p>
@@ -136,6 +163,7 @@ body {
         <p>And that permission?</p>
         <p>You already have it.</p>
     </div>
+
 </div>
 
 <script>
@@ -151,6 +179,21 @@ body {
         player.load();
     }
 </script>
+
+<div class="container">
+    <h1>Memory Unfolding</h1>
+    <p>Please enter your special ID</p>
+    
+    <div id="input-section">
+        <input type="text" id="id-input" placeholder="e.g. 2404201800">
+        <button onclick="checkID()">Unfold Memory</button>
+    </div>
+
+    <div id="result-section" style="display: none;">
+        <h2 id="display-id"></h2>
+        <p>Your memory fragment has been preserved here.</p>
+        </div>
+</div>
 
 </body>
 </html>
