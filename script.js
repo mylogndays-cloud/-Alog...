@@ -8,7 +8,7 @@ function checkID() {
     if (inputVal.length > 0) {
         inputPage.style.display = "none";
         resultPage.style.display = "block";
-        displayID.innerText = "存檔編號：" + inputVal;
+        displayID.innerText = "Your Memory ID:" + inputVal;
         
         // 嘗試播放對應 ID 的錄音檔
         player.src = "RECORDS/" + inputVal + ".wav";
