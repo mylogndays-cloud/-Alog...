@@ -1,17 +1,18 @@
 function checkID() {
-    const inputVal = document.getElementById('id-input').value;
-    const inputSection = document.getElementById('input-section');
-    const resultSection = document.getElementById('result-section');
+    const inputVal = document.getElementById('id-input').value.trim();
+    const inputPage = document.getElementById('input-page');
+    const resultPage = document.getElementById('result-page');
     const displayID = document.getElementById('display-id');
+    const player = document.getElementById('audio-player');
 
     if (inputVal.length > 0) {
-        // 隱藏輸入框，顯示結果
-        inputSection.style.display = "none";
-        resultSection.style.display = "block";
-        displayID.innerText = "Fragment ID: " + inputVal;
+        inputPage.style.display = "none";
+        resultPage.style.display = "block";
+        displayID.innerText = "存檔編號：" + inputVal;
         
-        // 這裡你可以加上一段音效或動畫，增加驚喜感
-        console.log("Searching ID: " + inputVal);
+        // 嘗試播放對應 ID 的錄音檔
+        player.src = "RECORDS/" + inputVal + ".wav";
+        player.load();
     } else {
         alert("Please enter a valid ID!");
     }
