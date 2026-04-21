@@ -35,7 +35,8 @@ function checkID() {
 
     // 2. 設定 Firebase Storage 資訊
     // 請確認你的 Bucket Name 是否與 Firebase Console 一致
-    const bucketName = "memory-log-de585.firebasestorage.app"; 
+    // script.js 中的設定
+    const bucketName = "memory-log-de585.firebasestorage.app";
     
     // 將路徑 RECORDS/ID.wav 進行 URL 編碼 (斜線轉為 %2F)
     const filePath = "RECORDS%2F" + inputVal + ".wav";
