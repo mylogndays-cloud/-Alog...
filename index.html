@@ -11,6 +11,12 @@
             src: url('ChenYuluoyan.ttf') format('truetype');
         }
 
+        html, body {
+            overflow-x: hidden;
+            height: 100%;
+            -webkit-overflow-scrolling: touch;
+        }
+
         body { 
             background-color: #d8cfb0; 
             color: #3e2a1a; 
@@ -20,27 +26,34 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: flex-start; /* 手機端由頂部開始排列，防止長內容被切斷 */
+            padding-top: 10vh;
             min-height: 100vh;
             justify-content: center;
             -webkit-font-smoothing: antialiased;
+        }
+
+        @keyframes cardUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* 輸入頁容器 */
         .container {
             text-align: center;
             width: 85%;
-            max-width: 450px;
+            max-width: 400px;
         }
 
         .container h1 { 
             font-size: 3.8rem; /* 加大標題 */
             margin-bottom: 25px;
-            letter-spacing: 2px;
         }
 
         .container p {
             font-size: 1.8rem; /* 加大說明文字 */
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            opacity: 0.8;
         }
 
         input {
@@ -55,79 +68,91 @@
             color: #3c2d1e;
             outline: none;
             margin-bottom: 40px;
+            border-radius: 0;
         }
 
         button {
             background-color: #3c2d1e;
             color: #d8cfb0;
             border: none;
-            padding: 20px;
+            height: 65px;
             font-family: 'MyCustomFont';
             font-size: 2.2rem; /* 加大按鈕文字 */
             cursor: pointer;
-            border-radius: 8px;
+            border-radius: 12px; /* 改用膠囊形狀更現代 */
             width: 100%;
+            -webkit-tap-highlight-color: transparent; /* 去除移動端點擊灰塊 */
+            transition: background 0.2s;
+        }
+
+        button:active {
+            background-color: #5a432d;
         }
 
         /* 明信片結果頁 */
         .postcard {
-            width: 88%;
-            max-width: 450px;
+            width: 85%;
+            max-width: 480px;
             background: #f4eee0;
-            padding: 35px;
-            border: 2px solid #3e2a1a;
+            padding: 25px;
+            border: 1px solid #3e2a1a;
             box-shadow: 10px 10px 0px #3e2a1a;
             position: relative;
             display: none; 
-            margin: 20px 0;
+            margin-bottom: 50px; /* 底部留白 */
+            animation: cardUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .postcard::after {
             content: "";
             position: absolute;
-            top: 5px; left: 5px; right: 5px; bottom: 5px;
+            top: 8px; left: 8px; right: 8px; bottom: 8px;
             border: 1px solid #3e2a1a;
             pointer-events: none;
         }
 
         .postcard h1 {
-            font-size: 4rem; /* 明信片大標題 */
+            font-size: 2.8rem; /* 明信片大標題 */
             text-align: center;
-            border-bottom: 2px solid #3e2a1a;
-            padding-bottom: 15px;
-            margin-top: 20px;
+            margin-top: 25px;
+            margin-bottom: 5px;
         }
 
         .timestamp { 
-            font-size: 1.6rem; 
+            font-size: 1.2rem; 
             text-align: center; 
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             color: #8b0000;
-            font-weight: bold;
         }
 
         audio { 
             width: 100%; 
-            margin: 25px 0; 
-            height: 55px; 
+            margin: 15px 0; 
+            height: 45px; 
         }
 
         .story-text {
-            line-height: 1.0;
-            font-size: 1.8rem; /* 加大故事內文 */
+            line-height: 1.8;
+            font-size: 1.4rem; /* 加大故事內文 */
             border-top: 1px dashed #3e2a1a;
-            padding-top: 25px;
-            margin-top: 25px;
+            padding-top: 20px;
+            margin-top: 10px;
+            text-align: justify;
         }
-
+        .story-text p {
+            margin-bottom: 1.2rem;
+        }
         .stamp {
-            position: absolute; right: 15px; top: 15px;
-            width: 85px; height: 85px;
-            border: 3px solid #8b0000; color: #8b0000;
+            position: absolute; right: 10px; top: 10px;
+            width: 60px; height: 60px;
+            border: 2px solid #8b0000; color: #8b0000;
             border-radius: 50%; display: flex;
             justify-content: center; align-items: center;
-            transform: rotate(15deg); font-size: 1.6rem;
-            opacity: 0.6; font-weight: bold;
+            transform: rotate(12deg); 
+            font-size: 1rem;
+            opacity: 0.6; 
+            font-weight: bold;
+            z-index: 2;
         }
     </style>
 </head>
