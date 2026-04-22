@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -7,26 +8,29 @@
     <style>
         /* 還原你最初成功的字體定義 */
         @font-face {
-            font-family: 'MyCustomFont'; 
+            font-family: 'MyCustomFont';
             src: url('ChenYuluoyan.ttf') format('truetype');
         }
 
-        html, body {
+        html,
+        body {
             overflow-x: hidden;
             height: 100%;
             -webkit-overflow-scrolling: touch;
         }
 
-        body { 
-            background-color: #d8cfb0; 
-            color: #3e2a1a; 
-            font-family: 'MyCustomFont', serif; 
+        body {
+            background-color: #d8cfb0;
+            /* 保持原本的底色，或是調淺一點點 */
+            color: #3e2a1a;
+            font-family: 'MyCustomFont', serif;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start; /* 手機端由頂部開始排列，防止長內容被切斷 */
+            justify-content: flex-start;
+            /* 手機端由頂部開始排列，防止長內容被切斷 */
             padding-top: 10vh;
             min-height: 100vh;
             justify-content: center;
@@ -34,8 +38,15 @@
         }
 
         @keyframes cardUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* 輸入頁容器 */
@@ -45,13 +56,15 @@
             max-width: 400px;
         }
 
-        .container h1 { 
-            font-size: 3.8rem; /* 加大標題 */
+        .container h1 {
+            font-size: 3.8rem;
+            /* 加大標題 */
             margin-bottom: 25px;
         }
 
         .container p {
-            font-size: 1.8rem; /* 加大說明文字 */
+            font-size: 1.8rem;
+            /* 加大說明文字 */
             margin-bottom: 40px;
             opacity: 0.8;
         }
@@ -61,7 +74,8 @@
             border: none;
             border-bottom: 4px solid #3c2d1e;
             font-family: 'MyCustomFont';
-            font-size: 3rem; /* 加大數字輸入框 */
+            font-size: 3rem;
+            /* 加大數字輸入框 */
             padding: 10px;
             width: 100%;
             text-align: center;
@@ -77,11 +91,14 @@
             border: none;
             height: 65px;
             font-family: 'MyCustomFont';
-            font-size: 2.2rem; /* 加大按鈕文字 */
+            font-size: 2.2rem;
+            /* 加大按鈕文字 */
             cursor: pointer;
-            border-radius: 12px; /* 改用膠囊形狀更現代 */
+            border-radius: 12px;
+            /* 改用膠囊形狀更現代 */
             width: 100%;
-            -webkit-tap-highlight-color: transparent; /* 去除移動端點擊灰塊 */
+            -webkit-tap-highlight-color: transparent;
+            /* 去除移動端點擊灰塊 */
             transition: background 0.2s;
         }
 
@@ -91,71 +108,155 @@
 
         /* 明信片結果頁 */
         .postcard {
-            width: 85%;
+            width: 88%;
             max-width: 480px;
-            background: #f4eee0;
-            padding: 25px;
+            background: #fdfaf3;
+            /* 套用你喜歡的白色 */
+            padding: 35px;
             border: 1px solid #3e2a1a;
-            box-shadow: 10px 10px 0px #3e2a1a;
+            box-shadow: 12px 12px 0px #3c2d1e;
+            /* 陰影顏色稍微深一點，突出紙張 */
             position: relative;
-            display: none; 
-            margin-bottom: 50px; /* 底部留白 */
-            animation: cardUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: none;
+            margin: 40px 0;
+            animation: fadeIn 1s ease-out;
         }
 
         .postcard::after {
             content: "";
             position: absolute;
-            top: 8px; left: 8px; right: 8px; bottom: 8px;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
             border: 1px solid #3e2a1a;
             pointer-events: none;
         }
 
         .postcard h1 {
-            font-size: 2.8rem; /* 明信片大標題 */
+            font-size: 2.8rem;
+            /* 明信片大標題 */
             text-align: center;
             margin-top: 25px;
             margin-bottom: 5px;
         }
 
-        .timestamp { 
-            font-size: 1.2rem; 
-            text-align: center; 
+        .timestamp {
+            font-size: 1.2rem;
+            text-align: center;
             margin-bottom: 20px;
             color: #8b0000;
         }
 
-        audio { 
-            width: 100%; 
-            margin: 15px 0; 
-            height: 45px; 
+        audio {
+            width: 100%;
+            margin: 15px 0;
+            height: 45px;
         }
 
         .story-text {
             line-height: 1.8;
-            font-size: 1.4rem; /* 加大故事內文 */
-            border-top: 1px dashed #3e2a1a;
-            padding-top: 20px;
-            margin-top: 10px;
-            text-align: justify;
+            font-size: 1.5rem;
+            border-top: 1px dashed rgba(62, 42, 26, 0.3);
+            /* 這裡調淡一點，更精緻 */
+            padding-top: 25px;
+            margin-top: 25px;
         }
+
         .story-text p {
             margin-bottom: 1.2rem;
         }
+
         .stamp {
-            position: absolute; right: 10px; top: 10px;
-            width: 60px; height: 60px;
-            border: 2px solid #8b0000; color: #8b0000;
-            border-radius: 50%; display: flex;
-            justify-content: center; align-items: center;
-            transform: rotate(12deg); 
-            font-size: 1rem;
-            opacity: 0.6; 
-            font-weight: bold;
-            z-index: 2;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            width: 60px;
+            height: 60px;
+            border: 2px solid #8b0000;
+            color: #8b0000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: rotate(15deg);
+            font-size: 1.8rem;
+            /* 字體顯著加大 */
+            opacity: 0.6;
+            font-weight: 900;
+            /* 字體加粗 */
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
+
+        .divider {
+            text-align: center;
+            margin: 15px 0;
+            border-top: 1px solid #3e2a1a;
+            position: relative;
+            opacity: 0.5;
+        }
+
+        .divider::after {
+            content: "✉";
+            /* 或者用 "✦" */
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fdfaf3;
+            /* 跟明信片背景色一樣 */
+            padding: 0 10px;
+            font-size: 1.2rem；
+        }
+
+        .envelope-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    perspective: 1000px; /* 為 3D 翻轉效果做準備 */
+}
+.long-letter {
+    width: 88%;
+    max-width: 450px;
+    background-color: #fdfaf3;
+    /* 初始狀態：高度為 0，且被遮蓋 */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 1.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s ease;
+    opacity: 0;
+    transform-origin: top;
+}
+
+/* 當激活時，長信展開 */
+.long-letter.is-open {
+    max-height: 3000px; /* 給予足夠大的高度讓它展開 */
+    opacity: 1;
+    margin-top: -1px; /* 緊貼上方卡片 */
+}
+
+/* 模擬信封蓋子的裝飾線（選配） */
+.envelope-flap {
+    width: 88%;
+    max-width: 450px;
+    height: 40px;
+    background: #fdfaf3;
+    clip-path: polygon(0 0, 100% 0, 50% 100%); /* V 字形 */
+    border-bottom: 1px solid rgba(197, 179, 88, 0.3);
+    transition: transform 0.8s ease;
+    transform-origin: top;
+    z-index: 1;
+}
+
+/* 翻開信封蓋子 */
+.envelope-flap.is-open {
+    transform: rotateX(180deg);
+    opacity: 0; /* 翻開後消失，讓信件露出來 */
+}
     </style>
 </head>
+
 <body>
     <div id="input-page" class="container">
         <h1>Memory Unfolding</h1>
@@ -164,29 +265,54 @@
         <button onclick="checkID()">Unfold Memory</button>
     </div>
 
-    <div id="result-page" class="postcard">
-        <div class="stamp">Saved</div>
-        <h1 id="title">"& A ... log"</h1>
-        <div class="timestamp" id="display-id">ID: --------</div>
+    <div id="result-page">
+    <div class="envelope-wrapper">
         
-        <audio id="audio-player" controls><source src="" type="audio/wav"></audio>
-        
-        <div style="text-align: center; font-size: 2rem; margin-top: 15px;"><strong>For you：</strong></div>
-        
-        <div class="story-text">
-            <p><strong>"Entry from a life, not a single day."</strong></p>
-            <p>They say happiness comes in moments — and that’s true. But joy? Joy is the quiet thread that sews those moments together.</p>
-            <p>When I was seven, I found a smooth, gray river stone. It wasn’t special — no crystal inside, no perfect shape. But I held it in my palm, warm from the sun, and for no reason at all, I felt full. I put it in my pocket and carried it for three years. That was joy: small, carried quietly.</p>
-            <p>At twelve, I failed something important. I sat on the back steps, watching ants climb a crack in the concrete. My mother sat beside me. She didn’t say “it’s okay.” She pointed at the ants and said, “Look how they keep going. No fear.” We laughed until our stomachs hurt. That was joy: someone sitting down with you, not above you.</p>
-            <p>At fifteen, I learned to make bread. The first loaf was a brick. The second was better. The tenth — I pulled it from the oven, golden and singing with little cracks. I broke it open with my hands, steam rising like a small ceremony. I ate it standing up, butter dripping to my wrist. That was joy: creating something imperfect and eating it anyway.</p>
-            <p>Now, writing this in a shared log — I realize: Happiness is the smile. Joy is the reason you keep smiling when no one is watching.</p>
+        <div class="memory-card">
+            <div class="stamp">SAVED</div>
+            <div class="card-header">
+                <h1>& A ... log</h1>
+                <div class="id-badge" id="display-id">MEMORY NO. --------</div>
+            </div>
+            <audio id="audio-player" controls><source src="" type="audio/wav"></audio>
+        </div>
+
+        <div class="envelope-flap" id="flap"></div>
+
+        <article class="long-letter" id="letter">
+            <div class="for-you-label">"Dear Traveler,"</div>
+            <div class="letter-content">
+            <p>"Entry from a life, not a single day."</p>
+            <p>They say happiness comes in moments — and that’s true. But joy? Joy is the quiet thread that sews those
+                moments together.</p>
+            <p>When I was seven, I found a smooth, gray river stone. It wasn’t special — no crystal inside, no perfect
+                shape. But I held it in my palm, warm from the sun, and for no reason at all, I felt full. I put it in
+                my pocket and carried it for three years. That was joy: small, carried quietly.</p>
+            <p>At twelve, I failed something important. I sat on the back steps, watching ants climb a crack in the
+                concrete. My mother sat beside me. She didn’t say “it’s okay.” She pointed at the ants and said, “Look
+                how they keep going. No fear.” We laughed until our stomachs hurt. That was joy: someone sitting down
+                with you, not above you.</p>
+            <p>At fifteen, I learned to make bread. The first loaf was a brick. The second was better. The tenth — I
+                pulled it from the oven, golden and singing with little cracks. I broke it open with my hands, steam
+                rising like a small ceremony. I ate it standing up, butter dripping to my wrist. That was joy: creating
+                something imperfect and eating it anyway.</p>
+            <p>Now, writing this in a shared log — I realize: Happiness is the smile. Joy is the reason you keep smiling
+                when no one is watching.</p>
             <p>Put this in your log not as a lesson, but as a reminder. Joy is not a destination.</p>
-            <p>It’s the permission you give yourself to notice a warm stone, a failed test turned into a laugh, or a loaf of bread that doesn’t care if it’s perfect.</p>
+            <p>It’s the permission you give yourself to notice a warm stone, a failed test turned into a laugh, or a
+                loaf of bread that doesn’t care if it’s perfect.</p>
             <p>And that permission? </p>
             <p>You already have it.</p>
+        </div>
+
+        <div class="footer-nav">
+                <a href="about.html" class="about-btn">ABOUT US —</a>
+            </div>
+        </a>
         </div>
     </div>
 
     <script src="script.js"></script>
 </body>
+
 </html>
