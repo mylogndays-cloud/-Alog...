@@ -42,7 +42,7 @@ function checkID() {
     const filePath = "RECORDS%2F" + inputVal + ".wav";
     
     // 3. 組合 Firebase 公開存取網址 (使用 alt=media 格式)
-    const firebaseUrl = `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${filePath}?alt=media`;
+    const firebaseUrl = `https://firebasestorage.googleapis.com/v0/b/memory-log-de585.appspot.com/o/RECORDS%2F${inputVal}.wav?alt=media`;
 
     // 4. 將網址放入播放器並載入
     player.src = firebaseUrl;
