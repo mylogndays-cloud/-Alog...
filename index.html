@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>& A ... log | Your memories</title>
-<style>
+    <style>
         @font-face {
             font-family: 'MyCustomFont';
             src: url('ChenYuluoyan.ttf') format('truetype');
         }
 
+        /* --- 基礎質感設定 --- */
         body {
             background-color: #d8cfb0;
             color: #3e2a1a;
@@ -18,11 +19,30 @@
             margin: 0; padding: 0;
             display: flex; flex-direction: column; align-items: center;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 老電影膠片感與紙張雜訊 */
+        body::before {
+            content: "";
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("https://www.transparenttextures.com/patterns/p6-dark.png");
+            opacity: 0.12; pointer-events: none; z-index: 100;
+        }
+
+        /* 檯燈光暈效果 */
+        body::after {
+            content: "";
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 20%, rgba(255,253,230,0.2) 0%, transparent 80%);
+            pointer-events: none; z-index: 99;
         }
 
         /* --- 輸入頁面 --- */
         #input-page {
             text-align: center; width: 85%; max-width: 400px; padding-top: 25vh;
+            min-height: 100vh;
         }
         #input-page h1 { font-size: 3.8rem; margin-bottom: 20px; }
         input {
@@ -34,93 +54,118 @@
             background-color: #3c2d1e; color: #d8cfb0; border: none;
             height: 65px; font-family: 'MyCustomFont'; font-size: 2.2rem;
             border-radius: 50px; width: 100%; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
         /* --- 結果頁面容器 --- */
         #result-page {
             display: none; width: 100%; flex-direction: column; align-items: center;
-            perspective: 1000px;
+            perspective: 1500px; padding-bottom: 150px;
         }
 
-        /* 1. 明信片卡片 (固定在頂部一段時間) */
+        /* 1. 明信片卡片 - 手撕邊緣與多層陰影 */
         .postcard-header {
             width: 90%; max-width: 450px;
             background: #fdfaf3;
-            padding: 40px 25px;
-            border: 1px solid rgba(197, 179, 88, 0.4);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            position: relative;
-            z-index: 10;
+            padding: 50px 25px;
             margin-top: 40px;
+            position: relative; z-index: 20;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05), 0 15px 35px rgba(0,0,0,0.1);
+            /* 手撕邊緣感 */
+            clip-path: polygon(0.5% 1%, 99.5% 0%, 100% 99%, 1% 100%, 0% 50%);
         }
 
-        .stamp {
-            position: absolute; right: 20px; top: 20px;
-            width: 65px; height: 65px; border: 2px solid #8b0000;
-            color: #8b0000; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            transform: rotate(15deg); font-size: 1.2rem; opacity: 0.6;
-            mix-blend-mode: multiply; font-weight: bold;
+        /* 郵戳樣式 */
+        .postmark {
+            position: absolute; right: 25px; bottom: 25px;
+            transform: rotate(-12deg);
+            border: 2px solid rgba(139, 0, 0, 0.3);
+            color: rgba(139, 0, 0, 0.3);
+            padding: 5px 12px; font-size: 1.1rem;
+            border-radius: 4px; pointer-events: none;
         }
 
         .postcard-header h1 { font-size: 3.2rem; margin: 15px 0 5px 0; text-align: center; }
         .id-badge { font-size: 1.1rem; text-align: center; color: #8b0000; margin-bottom: 25px; letter-spacing: 2px; }
-        audio { width: 100%; height: 40px; }
+        audio { width: 100%; height: 40px; opacity: 0.8; }
 
-        /* 2. 信封蓋子 (V 字) */
+        /* --- 信封區域 --- */
+        .envelope-wrapper {
+            position: relative; width: 90%; max-width: 450px;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
         .envelope-flap {
-            width: 90%; max-width: 450px;
-            height: 50px;
-            background: #fdfaf3;
+            width: 100%; height: 75px; background: #ebe4d1;
             clip-path: polygon(0 0, 100% 0, 50% 100%);
-            z-index: 9;
-            transition: transform 0.8s ease;
-            transform-origin: top;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            z-index: 15; transform-origin: top;
+            transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; justify-content: center; align-items: flex-end;
         }
 
-        /* 3. 長信件本體 (初始隱藏與縮小) */
+        /* 蠟封樣式 */
+        .wax-seal {
+            width: 45px; height: 45px; background: #8b0000;
+            border-radius: 50%; margin-bottom: -22px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            display: flex; justify-content: center; align-items: center;
+            color: #d8cfb0; font-size: 1.2rem; z-index: 16;
+            transition: all 0.6s ease;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .envelope-body {
+            width: 100%; height: 110px; background: #fdfaf3;
+            z-index: 12; box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transition: opacity 0.6s;
+        }
+
+        /* 長信件 - 文字逐行漸顯基礎設定 */
         .letter-scroll {
-            width: 86%; max-width: 430px;
-            background: #fdfaf3;
-            margin-top: -45px; /* 藏在蓋子下 */
-            padding: 0 25px;
-            max-height: 0;
-            opacity: 0;
+            width: 92%; background: #fdfaf3; position: absolute; top: 0; z-index: 11;
+            padding: 0 25px; max-height: 0; opacity: 0;
+            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1), max-height 1.5s ease;
             overflow: hidden;
-            transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1); /* 彈出效果 */
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            z-index: 5;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+            clip-path: polygon(0% 0%, 100% 0.5%, 98.5% 100%, 1.5% 99.5%);
         }
 
-        /* 彈出後的狀態 */
-        .letter-scroll.unfold {
-            max-height: 2500px;
-            opacity: 1;
-            padding: 60px 25px;
-            margin-top: 10px;
-            transform: translateY(0);
-        }
-
-        .letter-content {
+        .letter-content p {
             font-size: 1.6rem; line-height: 2.2; text-align: justify;
+            margin-bottom: 2.2em;
             background-image: linear-gradient(transparent 97%, rgba(62, 42, 26, 0.08) 97%);
             background-size: 100% 2.2em;
+            /* 初始隱藏文字 */
+            opacity: 0; filter: blur(8px); transform: translateY(20px);
+            transition: all 1s ease;
         }
 
-        .letter-content p { margin-bottom: 2.2em; }
+        /* --- 觸發動畫後的狀態 --- */
+        .unfold .envelope-flap { transform: rotateX(160deg); z-index: 5; opacity: 0.2; }
+        .unfold .wax-seal { transform: scale(1.5); opacity: 0; }
+        
+        .unfold .letter-scroll {
+            opacity: 1; max-height: 4000px; padding: 70px 25px;
+            transform: translateY(60px); position: relative; margin-top: -60px;
+        }
 
-        /* 關於我的按鍵 */
+        .unfold .envelope-body { opacity: 0; pointer-events: none; }
+
+        /* 文字顯示時的狀態 */
+        .unfold .letter-content p.visible {
+            opacity: 1; filter: blur(0); transform: translateY(0);
+        }
+
         .about-link-section {
-            text-align: center; margin: 60px 0 100px 0;
-            opacity: 0; transition: opacity 1s 1s;
+            text-align: center; margin: 40px 0 100px 0;
+            opacity: 0; transition: opacity 1.5s;
         }
-        .letter-scroll.unfold + .about-link-section { opacity: 1; }
+        .unfold + .about-link-section { opacity: 1; }
 
         .about-btn {
             text-decoration: none; color: #fdfaf3; background: #3e2a1a;
-            padding: 15px 40px; border-radius: 50px; font-size: 1.4rem;
-            display: inline-block; box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            padding: 18px 50px; border-radius: 50px; font-size: 1.4rem;
+            display: inline-block; box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
 
     </style>
@@ -136,35 +181,95 @@
 
     <div id="result-page">
         <div class="postcard-header">
-            <div class="stamp">SAVED</div>
-            <h1>& A ... log</h1>
+            <h1>& A log ...</h1>
             <div class="id-badge" id="display-id">MEMORY NO. --------</div>
             <audio id="audio-player" controls><source src="" type="audio/wav"></audio>
+            
+            <div class="postmark">
+                <span id="current-date">2026 / -- / --</span>
+                <div style="font-size: 0.7rem; border-top: 1px solid rgba(139,0,0,0.2); margin-top: 4px; text-align: center; letter-spacing: 3px;">COLLECTED</div>
+            </div>
+            
+            <p style="margin-top: 60px; opacity: 0.3; font-size: 1.1rem; text-align: center; letter-spacing: 2px;">↓ SCROLL TO OPEN ↓</p>
         </div>
 
-        <div class="envelope-flap" id="flap"></div>
+        <div class="envelope-wrapper" id="envelope-container">
+            <div class="envelope-flap">
+                <div class="wax-seal">A</div> </div>
+            
+            <article class="letter-scroll" id="letter">
+                <div class="letter-content" id="letter-content">
+                    <p><strong>"Dear Traveler,"</strong></p>
+                    <p>"Entry from a life, not a single day."</p>
+                    <p>They say happiness comes in moments — and that’s true. But joy? Joy is the quiet thread that sews those moments together.</p>
+                    <p>When I was seven, I found a smooth, gray river stone. It wasn’t special — no crystal inside, no perfect shape. But I held it in my palm, warm from the sun, and for no reason at all, I felt full. I put it in my pocket and carried it for three years. That was joy: small, carried quietly.</p>
+                    <p>At twelve, I failed something important. I sat on the back steps, watching ants climb a crack in the concrete. My mother sat beside me. She didn’t say “it’s okay.” She pointed at the ants and said, “Look how they keep going. No fear.” We laughed until our stomachs hurt. That was joy: someone sitting down with you, not above you.</p>
+                    <p>At fifteen, I learned to make bread. The first loaf was a brick. The second was better. The tenth — I pulled it from the oven, golden and singing with little cracks. I broke it open with my hands, steam rising like a small ceremony. I ate it standing up, butter dripping to my wrist. That was joy: creating something imperfect and eating it anyway.</p>
+                    <p>Now, writing this in a shared log — I realize: Happiness is the smile. Joy is the reason you keep smiling when no one is watching.</p>
+                    <p>Put this in your log not as a lesson, but as a reminder. Joy is not a destination.</p>
+                    <p>It’s the permission you give yourself to notice a warm stone, a failed test turned into a laugh, or a loaf of bread that doesn’t care if it’s perfect.</p>
+                    <p>And that permission? </p>
+                    <p>You already have it.</p>
+                </div>
+            </article>
 
-        <article class="letter-scroll" id="letter">
-            <div class="letter-content">
-                <p><strong>"Dear Traveler,"</strong></p>
-                <p>"Entry from a life, not a single day."</p>
-                <p>They say happiness comes in moments — and that’s true. But joy? Joy is the quiet thread that sews those moments together.</p>
-                <p>When I was seven, I found a smooth, gray river stone. It wasn’t special — no crystal inside, no perfect shape. But I held it in my palm, warm from the sun, and for no reason at all, I felt full. I put it in my pocket and carried it for three years. That was joy: small, carried quietly.</p>
-                <p>At twelve, I failed something important. I sat on the back steps, watching ants climb a crack in the concrete. My mother sat beside me. She didn’t say “it’s okay.” She pointed at the ants and said, “Look how they keep going. No fear.” We laughed until our stomachs hurt. That was joy: someone sitting down with you, not above you.</p>
-                <p>At fifteen, I learned to make bread. The first loaf was a brick. The second was better. The tenth — I pulled it from the oven, golden and singing with little cracks. I broke it open with my hands, steam rising like a small ceremony. I ate it standing up, butter dripping to my wrist. That was joy: creating something imperfect and eating it anyway.</p>
-                <p>Now, writing this in a shared log — I realize: Happiness is the smile. Joy is the reason you keep smiling when no one is watching.</p>
-                <p>Put this in your log not as a lesson, but as a reminder. Joy is not a destination.</p>
-                <p>It’s the permission you give yourself to notice a warm stone, a failed test turned into a laugh, or a loaf of bread that doesn’t care if it’s perfect.</p>
-                <p>And that permission? You already have it.</p>
-            </div>
-        </article>
+            <div class="envelope-body"></div>
+        </div>
 
         <div class="about-link-section">
             <a href="about.html" class="about-btn">ABOUT US —</a>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        function checkID() {
+            const idInput = document.getElementById('id-input').value;
+            if (idInput) {
+                // 1. 切換頁面
+                document.getElementById('input-page').style.display = 'none';
+                document.getElementById('result-page').style.display = 'flex';
+                document.getElementById('display-id').innerText = "MEMORY NO. " + idInput;
+                
+                // 2. 設定當前日期
+                const now = new Date();
+                const dateStr = `${now.getFullYear()} / ${String(now.getMonth() + 1).padStart(2, '0')} / ${String(now.getDate()).padStart(2, '0')}`;
+                document.getElementById('current-date').innerText = dateStr;
+
+                // 3. 啟動觀察器
+                initObservers();
+            } else {
+                alert("Please enter an ID");
+            }
+        }
+
+        function initObservers() {
+            // 信封打開觀察器
+            const envelopeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('unfold');
+                        envelopeObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            envelopeObserver.observe(document.getElementById('envelope-container'));
+
+            // 文字逐行顯現觀察器
+            const paragraphObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // 讓文字顯示後不需要重複觸發，保持流暢
+                        paragraphObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5, rootMargin: '0px 0px -50px 0px' });
+
+            const paragraphs = document.querySelectorAll('.letter-content p');
+            paragraphs.forEach(p => paragraphObserver.observe(p));
+        }
+    </script>
 </body>
 
 </html>
