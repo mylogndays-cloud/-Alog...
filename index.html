@@ -16,14 +16,15 @@
             background-color: #d8cfb0;
             color: #3e2a1a;
             font-family: 'MyCustomFont', serif;
+            /* 移除全域粗體，改為預設粗細 */
+            font-weight: normal; 
             margin: 0; padding: 0;
             display: flex; flex-direction: column; align-items: center;
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
-            position: relative;
         }
 
-        /* 老電影膠片感與紙張雜訊 */
+        /* 老電影膠片感雜訊 */
         body::before {
             content: "";
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -31,172 +32,161 @@
             opacity: 0.12; pointer-events: none; z-index: 100;
         }
 
-        /* 檯燈光暈效果 */
-        body::after {
-            content: "";
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 20%, rgba(255,253,230,0.2) 0%, transparent 80%);
-            pointer-events: none; z-index: 99;
-        }
-
         /* --- 輸入頁面 --- */
         #input-page {
-            text-align: center; width: 85%; max-width: 400px; padding-top: 25vh;
+            text-align: center; width: 85%; max-width: 400px; padding-top: 20vh;
             min-height: 100vh;
         }
-        #input-page h1 { font-size: 3.8rem; margin-bottom: 20px; }
+        #input-page h1 { font-size: 3.2rem; margin-bottom: 20px; font-weight: bold; } /* 標題保留粗體 */
+        
         input {
             background: transparent; border: none; border-bottom: 3px solid #3c2d1e;
-            font-family: 'MyCustomFont'; font-size: 3rem; width: 100%;
+            font-family: 'MyCustomFont'; font-size: 2.5rem; width: 100%;
             text-align: center; color: #3c2d1e; outline: none; margin-bottom: 40px;
+            font-weight: bold; /* ID 輸入框保留粗體以便辨識 */
         }
         .start-btn {
             background-color: #3c2d1e; color: #d8cfb0; border: none;
-            height: 65px; font-family: 'MyCustomFont'; font-size: 2.2rem;
+            height: 60px; font-family: 'MyCustomFont'; font-size: 1.8rem;
             border-radius: 50px; width: 100%; cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-weight: bold; /* 按鈕保留粗體 */
         }
 
         /* --- 結果頁面容器 --- */
         #result-page {
             display: none; width: 100%; flex-direction: column; align-items: center;
-            perspective: 1500px; padding-bottom: 150px;
+            perspective: 1500px; padding-bottom: 100px;
         }
 
-        /* 1. 明信片卡片 - 手撕邊緣與多層陰影 */
+        /* 1. 明信片卡片 */
         .postcard-header {
-            width: 90%; max-width: 450px;
+            width: 88%; max-width: 420px;
             background: #fdfaf3;
-            padding: 50px 25px;
-            margin-top: 40px;
+            padding: 45px 20px;
+            margin-top: 30px;
             position: relative; z-index: 20;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05), 0 15px 35px rgba(0,0,0,0.1);
-            /* 手撕邊緣感 */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             clip-path: polygon(0.5% 1%, 99.5% 0%, 100% 99%, 1% 100%, 0% 50%);
         }
 
-        /* 郵戳樣式 */
-        .postmark {
-            position: absolute; right: 25px; bottom: 25px;
-            transform: rotate(-12deg);
-            border: 2px solid rgba(139, 0, 0, 0.3);
-            color: rgba(139, 0, 0, 0.3);
-            padding: 5px 12px; font-size: 1.1rem;
-            border-radius: 4px; pointer-events: none;
+        /* 右上角整合蠟印 */
+        .combined-seal {
+            position: absolute;
+            top: 20px; right: 20px;
+            display: flex; flex-direction: column; align-items: center;
+            transform: rotate(8deg); z-index: 30;
         }
 
-        .postcard-header h1 { font-size: 3.2rem; margin: 15px 0 5px 0; text-align: center; }
-        .id-badge { font-size: 1.1rem; text-align: center; color: #8b0000; margin-bottom: 25px; letter-spacing: 2px; }
-        audio { width: 100%; height: 40px; opacity: 0.8; }
+        .wax-seal-circle {
+            width: 70px; height: 70px;
+            background: #8b0000; border-radius: 50%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            border: 1px solid rgba(0,0,0,0.2);
+        }
 
-        /* --- 信封區域 --- */
+        .seal-letter {
+            color: #d8cfb0; font-size: 1.6rem; line-height: 1; font-weight: bold;
+        }
+
+        #current-date {
+            color: rgba(216, 207, 176, 0.95);
+            font-size: 0.9rem !important;
+            font-weight: bold !important; /* 日期保留粗體，像蓋上去的印記 */
+            margin-top: 2px; letter-spacing: 0.5px;
+        }
+
+        .postcard-header h1 { font-size: 2.8rem; margin: 25px 0 5px 0; text-align: center; font-weight: bold; }
+        .id-badge { font-size: 1rem; text-align: center; color: #8b0000; margin-bottom: 25px; letter-spacing: 1px; font-weight: bold; }
+        audio { width: 100%; height: 45px; margin-bottom: 10px; }
+
+        /* --- 信封與長信區域 --- */
         .envelope-wrapper {
-            position: relative; width: 90%; max-width: 450px;
+            position: relative; width: 88%; max-width: 420px;
             display: flex; flex-direction: column; align-items: center;
         }
 
         .envelope-flap {
-            width: 100%; height: 75px; background: #ebe4d1;
+            width: 100%; height: 65px; background: #ebe4d1;
             clip-path: polygon(0 0, 100% 0, 50% 100%);
             z-index: 15; transform-origin: top;
-            transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex; justify-content: center; align-items: flex-end;
-        }
-
-        /* 蠟封樣式 */
-        .wax-seal {
-            width: 45px; height: 45px; background: #8b0000;
-            border-radius: 50%; margin-bottom: -22px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            display: flex; justify-content: center; align-items: center;
-            color: #d8cfb0; font-size: 1.2rem; z-index: 16;
-            transition: all 0.6s ease;
-            border: 1px solid rgba(0,0,0,0.1);
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .envelope-body {
-            width: 100%; height: 110px; background: #fdfaf3;
-            z-index: 12; box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-            transition: opacity 0.6s;
+            width: 100%; height: 90px; background: #fdfaf3;
+            z-index: 12; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: opacity 0.5s;
         }
 
-        /* 長信件 - 文字逐行漸顯基礎設定 */
         .letter-scroll {
-            width: 92%; background: #fdfaf3; position: absolute; top: 0; z-index: 11;
-            padding: 0 25px; max-height: 0; opacity: 0;
-            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1), max-height 1.5s ease;
+            width: 94%; background: #fdfaf3; position: absolute; top: 0; z-index: 11;
+            padding: 0 20px; max-height: 0; opacity: 0;
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), max-height 1.2s ease;
             overflow: hidden;
             box-shadow: 0 5px 25px rgba(0,0,0,0.05);
-            clip-path: polygon(0% 0%, 100% 0.5%, 98.5% 100%, 1.5% 99.5%);
         }
 
         .letter-content p {
-            font-size: 1.6rem; line-height: 2.2; text-align: justify;
-            margin-bottom: 2.2em;
-            background-image: linear-gradient(transparent 97%, rgba(62, 42, 26, 0.08) 97%);
+            font-size: 1.4rem; line-height: 2.2; text-align: justify;
+            margin-bottom: 2.2em; 
+            /* 這裡現在是正常粗細 */
+            font-weight: normal; 
+            background-image: linear-gradient(transparent 97%, rgba(62, 42, 26, 0.1) 97%);
             background-size: 100% 2.2em;
-            /* 初始隱藏文字 */
-            opacity: 0; filter: blur(8px); transform: translateY(20px);
-            transition: all 1s ease;
+            opacity: 0; filter: blur(5px); transform: translateY(25px);
+            transition: all 0.9s ease;
         }
 
-        /* --- 觸發動畫後的狀態 --- */
+        /* --- 動畫狀態 --- */
         .unfold .envelope-flap { transform: rotateX(160deg); z-index: 5; opacity: 0.2; }
-        .unfold .wax-seal { transform: scale(1.5); opacity: 0; }
-        
         .unfold .letter-scroll {
-            opacity: 1; max-height: 4000px; padding: 70px 25px;
-            transform: translateY(60px); position: relative; margin-top: -60px;
+            opacity: 1; max-height: 5000px; padding: 70px 20px;
+            transform: translateY(40px); position: relative; margin-top: -40px;
         }
-
         .unfold .envelope-body { opacity: 0; pointer-events: none; }
-
-        /* 文字顯示時的狀態 */
-        .unfold .letter-content p.visible {
-            opacity: 1; filter: blur(0); transform: translateY(0);
-        }
+        .unfold .letter-content p.visible { opacity: 1; filter: blur(0); transform: translateY(0); }
 
         .about-link-section {
-            text-align: center; margin: 40px 0 100px 0;
-            opacity: 0; transition: opacity 1.5s;
+            text-align: center; margin: 60px 0 120px 0;
+            opacity: 0; transition: opacity 1s;
         }
         .unfold + .about-link-section { opacity: 1; }
 
         .about-btn {
             text-decoration: none; color: #fdfaf3; background: #3e2a1a;
-            padding: 18px 50px; border-radius: 50px; font-size: 1.4rem;
-            display: inline-block; box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            padding: 16px 45px; border-radius: 50px; font-size: 1.3rem;
+            display: inline-block; font-weight: bold;
         }
-
     </style>
 </head>
 
 <body>
     <div id="input-page">
         <h1>Memory Unfolding</h1>
-        <p style="font-size: 1.5rem; opacity: 0.7;">Please enter your special ID</p>
+        <p style="font-size: 1.3rem; opacity: 0.8;">Please enter your special ID</p>
         <input type="number" pattern="\d*" id="id-input" placeholder="Enter ID">
         <button class="start-btn" onclick="checkID()">Unfold Memory</button>
     </div>
 
     <div id="result-page">
         <div class="postcard-header">
+            <div class="combined-seal">
+                <div class="wax-seal-circle">
+                    <span class="seal-letter">SAVED</span>
+                    <span id="current-date">-- / --</span>
+                </div>
+            </div>
+
             <h1>& A log ...</h1>
             <div class="id-badge" id="display-id">MEMORY NO. --------</div>
             <audio id="audio-player" controls><source src="" type="audio/wav"></audio>
             
-            <div class="postmark">
-                <span id="current-date">2026 / -- / --</span>
-                <div style="font-size: 0.7rem; border-top: 1px solid rgba(139,0,0,0.2); margin-top: 4px; text-align: center; letter-spacing: 3px;">COLLECTED</div>
-            </div>
-            
-            <p style="margin-top: 60px; opacity: 0.3; font-size: 1.1rem; text-align: center; letter-spacing: 2px;">↓ SCROLL TO OPEN ↓</p>
+            <p style="margin-top: 50px; opacity: 0.4; font-size: 1.1rem; text-align: center; letter-spacing: 1px;">↓ SCROLL TO OPEN ↓</p>
         </div>
 
         <div class="envelope-wrapper" id="envelope-container">
-            <div class="envelope-flap">
-                <div class="wax-seal">A</div> </div>
-            
+            <div class="envelope-flap"></div>
             <article class="letter-scroll" id="letter">
                 <div class="letter-content" id="letter-content">
                     <p><strong>"Dear Traveler,"</strong></p>
@@ -212,7 +202,6 @@
                     <p>You already have it.</p>
                 </div>
             </article>
-
             <div class="envelope-body"></div>
         </div>
 
@@ -223,19 +212,25 @@
 
     <script>
         function checkID() {
-            const idInput = document.getElementById('id-input').value;
+            const idInput = document.getElementById('id-input').value.trim();
             if (idInput) {
-                // 1. 切換頁面
                 document.getElementById('input-page').style.display = 'none';
                 document.getElementById('result-page').style.display = 'flex';
                 document.getElementById('display-id').innerText = "MEMORY NO. " + idInput;
                 
-                // 2. 設定當前日期
                 const now = new Date();
-                const dateStr = `${now.getFullYear()} / ${String(now.getMonth() + 1).padStart(2, '0')} / ${String(now.getDate()).padStart(2, '0')}`;
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const dateStr = `${month} / ${day}`;
                 document.getElementById('current-date').innerText = dateStr;
 
-                // 3. 啟動觀察器
+                const player = document.getElementById('audio-player');
+                const bucketName = "memory-log-de585.firebasestorage.app";
+                const filePath = "RECORDS%2F" + idInput + ".wav";
+                const firebaseUrl = `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${filePath}?alt=media`;
+                player.src = firebaseUrl;
+                player.load();
+
                 initObservers();
             } else {
                 alert("Please enter an ID");
@@ -243,7 +238,6 @@
         }
 
         function initObservers() {
-            // 信封打開觀察器
             const envelopeObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -251,20 +245,18 @@
                         envelopeObserver.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.2 });
+            }, { threshold: 0.15 });
 
             envelopeObserver.observe(document.getElementById('envelope-container'));
 
-            // 文字逐行顯現觀察器
             const paragraphObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
-                        // 讓文字顯示後不需要重複觸發，保持流暢
                         paragraphObserver.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.5, rootMargin: '0px 0px -50px 0px' });
+            }, { threshold: 0.25 });
 
             const paragraphs = document.querySelectorAll('.letter-content p');
             paragraphs.forEach(p => paragraphObserver.observe(p));
